@@ -1,10 +1,9 @@
 <?php 
+
 require_once 'vendor/autoload.php';
 require_once 'config.php';
-/**
-* envoie un email
-* @return string
-*/
+
+
 function envoiMail($objet, $mailto, $msg, $cci = true)//:string
 {
 	require 'config.php';
@@ -16,7 +15,7 @@ function envoiMail($objet, $mailto, $msg, $cci = true)//:string
 	// Create the Transport
 	$transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
 	->setUsername($defaultmail)
-	->setPassword($mailpwd);
+	->setPassword($setPassword);
 
 	// Create the Mailer using your created Transport
 	$mailer = new Swift_Mailer($transport);
@@ -57,10 +56,16 @@ function envoiMail($objet, $mailto, $msg, $cci = true)//:string
 	// Send the message
 	return $mailer->send($message);
 }
-	if(isset($_SESSION["mail"] && !empty($_SESSION["mail"])){
-		$subject = "Test";
-		$sendmail = ["html" => 'test'];
-		sendMail('test', 'benj.siskoo@gmail.com', $sendmail);
-	}
+		session_start();
 
+
+
+
+		if(isset($_SESSION["mail"])){
+		envoiMail('Test', 'contact@apprendre.co', 'Richard is a loser');
 		unset($_SESSION['mail']);
+
+	}else{
+		$_SESSION['mail'] = 'faischier';
+		echo "rafrechir la page";
+	}	
